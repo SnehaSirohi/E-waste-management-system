@@ -18,23 +18,23 @@ def signup(request):
       confirmpassword = request.POST.get("confirmpassword")
       if User.objects.filter(username=username):
             messages.error(request, "Username already exist! Please try some other username.")
-            return redirect('home')
+            return redirect('signup')
         
       if User.objects.filter(email=email).exists():
             messages.error(request, "Email Already Registered!!")
-            return redirect('home')
+            return redirect('signup')
         
       if len(username)>20:
             messages.error(request, "Username must be under 20 charcters!!")
-            return redirect('home')
+            return redirect('signup')
         
       if password != confirmpassword:
             messages.error(request, "Passwords didn't matched!!")
-            return redirect('home')
+            return redirect('signup')
         
       if not username.isalnum():
             messages.error(request, "Username must be Alpha-Numeric!!")
-            return redirect('home')  
+            return redirect('signup')  
       myuser = User.objects.create_user(username,email,password)
       myuser.save()
       signup = extendeduser(name = name,email = email,username = username,aadhaar_no = aadhaarno,password=password)
