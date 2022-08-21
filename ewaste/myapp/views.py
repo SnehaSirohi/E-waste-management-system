@@ -73,6 +73,9 @@ def signin(request):
 def guidelines(request):
     return render(request,'guidelines.html')
 
+def notifications(request):
+    return render(request,'notifications.html')
+
 
 def donor_form(request):
     if request.method == "POST":
