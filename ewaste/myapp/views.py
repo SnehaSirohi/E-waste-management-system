@@ -1,12 +1,24 @@
-from multiprocessing import context
+from http.client import HTTPResponse
 from django.shortcuts import render , HttpResponse,redirect
+from myapp.models import Donor_form
 from django.contrib.auth.forms import User
-from django.contrib import messages
+from datetime import datetime
 from django.contrib.auth import authenticate,logout,login
+from django.contrib import messages
 from .models import extendeduser
+
+
+
 # Create your views here.
-def home(request):
-    return render(request,"home.html")
+def index(request):
+   
+    return render(request,'index.html')
+
+def about(request):
+    return HttpResponse("this is aboutpage")
+
+def services(request):
+    return HttpResponse("this is servicespage")
 
 def signup(request):
    if request.method == "POST":
@@ -53,10 +65,34 @@ def signin(request):
       user = authenticate(username=username,password=password)
       if user is not None:
          login(request,user)
-         return render(request,"about.html")
+         return render(request,"dashboard.html")
       else:
          return redirect(signin)
    return render(request,"signin.html")
 
-def about(request):
-    return render(request,"about.html")
+def guidelines(request):
+    return render(request,'guidelines.html')
+
+
+def donor_form(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        address1 = request.POST.get('address1')
+        address2 = request.POST.get('address2')
+        district = request.POST.get('district')
+        city = request.POST.get('city')
+        district = request.POST.get('district')
+        state = request.POST.get('state')
+        pincode = request.POST.get('pincode')
+        contact_no = request.POST.get('contact_no')
+        size = request.POST.get('size')
+        quantity = request.POST.get('quantity')
+        date_s = request.POST.get('date_s')
+        time = request.POST.get('time')
+        e_img = request.POST.get('e_img')
+        donor_form = Donor_form(email=email, address1=address1, address2=address2, district=district ,city=city ,state=state ,pincode=pincode ,contact_no=contact_no ,size=size ,quantity=quantity ,date_s=date_s ,time=time, e_img=e_img, date=datetime.today())  
+        donor_form.save()
+    return render(request,'donor_form.html')
+
+def dashboard(request):
+        return render(request,'dashboard.html')
